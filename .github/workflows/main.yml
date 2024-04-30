@@ -1,0 +1,29 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  OPA-test:
+    uses: origin-ig/templates-OPA/.github/workflows/template_terraform.yml@master
+    with:
+     route_template_JSON: tfplan.json
+     aws_account_id: 815468042487
+     environment: origin-igtest
+    secrets: inherit
+
+# Note: This deployment workflow can be skipped if not needed.
+  deploy-workflow-igbuild:
+    strategy:
+      matrix:
+        environment: [example1,example2]    
+        aws_account_id: [12312,123123]
+    uses: origin-ig/templates-OPA/.github/workflows/deployment_terraform.yml@master
+    needs: OPA-test
+    if: ${{ needs.OPA-test.result == 'success' }}
+    with:
+      aws_account_id:  ${{ matrix.aws_account_id }}
+      environment: ${{ matrix.environment }}  
+
