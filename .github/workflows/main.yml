@@ -6,13 +6,13 @@ on:
       - master
 
 jobs:
-  OPA-test:
-    uses: whitesoft-aus/templates-OPA/.github/workflows/template_terraform.yml@master
-    with:
-      route_template_JSON: tfplan.json
-      aws_account_id: 815468042487
-      environment: origin-igtest
-    secrets: inherit
+  # OPA-test:
+  #   uses: whitesoft-aus/templates-OPA/.github/workflows/template_terraform.yml@master
+  #   with:
+  #     route_template_JSON: tfplan.json
+  #     aws_account_id: 815468042487
+  #     environment: origin-igtest
+  #   secrets: inherit
 
   # Note: This deployment workflow can be skipped if not needed.
   deploy-workflow-igbuild:
