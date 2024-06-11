@@ -1,12 +1,12 @@
 # Mandatory Tags 📝  
 
-- **APLICATION_CI:** <span style="background-color:#f07171;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px">value_Application_CI</span>
+- **APLICATION_CI:** <span style="background-color:#f07171;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px">{{ application_ci }}</span>
 <br/>
 
-- **SAP_CC :** <span style="background-color:#71c6f0;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px">value_SAP_CC</span>
+- **SAP_CC :** <span style="background-color:#71c6f0;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px">{{ sap_cc }}</span>
 <br/>
 
-- **OWNER:** <span style="background-color:#9cfc95;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px" >value_Owner</span>
+- **OWNER:** <span style="background-color:#9cfc95;border-radius:10px;padding:5px 10px; font-weight:700;margin-left: 10px">{{ owner }}</span>
 <hr/>
 
 # Template Terraform Repository

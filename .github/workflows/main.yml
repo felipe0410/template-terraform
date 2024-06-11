@@ -5,24 +5,42 @@ on:
     branches:
       - master
 
-jobs:
-  # OPA-test:
-  #   uses: whitesoft-aus/templates-OPA/.github/workflows/template_terraform.yml@master
-  #   with:
-  #     route_template_JSON: tfplan.json
-  #     aws_account_id: 815468042487
-  #     environment: origin-igtest
-  #   secrets: inherit
+permissions:
+  id-token: write
+  contents: read
 
+jobs:
+  OPA-test:
+    uses: whitesoft-aus/templates-OPA/.github/workflows/template_terraform.yml@master
+    with:
+      route_template_JSON: tfplan.json
+      aws_account_id: 815468042487
+      environment: origin-igtest
+    secrets: inherit
   # Note: This deployment workflow can be skipped if not needed.
-  deploy-workflow-igbuild:
+  config-terraform:
     strategy:
       matrix:
-        environment: ${{ vars.ENVIRONMENTS }} 
-        aws_account_id: ${{ vars.AWS_ACCOUNT_IDS }}
-    uses: whitesoft-aus/templates-OPA/.github/workflows/deployment_terraform.yml@master
-    #needs: OPA-test
-    if: ${{ needs.OPA-test.result == 'success' }}
+        aws_account_id: ${{ fromJson(vars.AWS_ACCOUNT_IDS) }}
+      max-parallel: 1
+    uses: whitesoft-aus/templates-OPA/.github/workflows/platform-repositories-config-backend.yml@master
     with:
+      bucket: terraform-state-whitesoft
+      dynamodb_table: terraform-state-whitesoft
       aws_account_id: ${{ matrix.aws_account_id }}
-      environment: ${{ matrix.environment }}
+      aws_account: ${{ matrix.aws_account_id }}
+    secrets: inherit
+
+  terraform-apply:
+    strategy:
+      matrix:
+        aws_account_id: ${{ fromJson(vars.AWS_ACCOUNT_IDS) }}
+      max-parallel: 1
+    needs: config-terraform
+    uses: whitesoft-aus/templates-OPA/.github/workflows/platform-repositories-terraform-apply.yml@master
+    with:
+      bucket: terraform-state-whitesoft
+      dynamodb_table: terraform-state-whitesoft
+      aws_account_id: ${{ matrix.aws_account_id }}
+      aws_account: ${{ matrix.aws_account_id }}
+    secrets: inherit
