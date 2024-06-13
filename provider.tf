@@ -14,6 +14,7 @@ provider "aws" {
       Owner         = var.OWNER
       SAP_CC        = var.SAP_CC
       ApplicationCI = var.APPLICATION_CI
+      Iac           = "terraform"
     }
   }
 }
