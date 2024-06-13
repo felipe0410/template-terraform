@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   OPA-test:
-    uses: whitesoft-aus/templates-OPA/.github/workflows/template_terraform.yml@master
+    uses: whitesoft-aus/gh_actions/.github/workflows/template_terraform.yml@master
     with:
       route_template_JSON: tfplan.json
       aws_account_id: 815468042487
@@ -23,7 +23,7 @@ jobs:
       matrix:
         aws_account_id: ${{ fromJson(vars.AWS_ACCOUNT_IDS) }}
       max-parallel: 1
-    uses: whitesoft-aus/templates-OPA/.github/workflows/platform-repositories-config-backend.yml@master
+    uses: whitesoft-aus/gh_actions/.github/workflows/platform-repositories-config-backend.yml@master
     with:
       bucket: terraform-state-whitesoft
       dynamodb_table: terraform-state-whitesoft
@@ -37,7 +37,7 @@ jobs:
         aws_account_id: ${{ fromJson(vars.AWS_ACCOUNT_IDS) }}
       max-parallel: 1
     needs: config-terraform
-    uses: whitesoft-aus/templates-OPA/.github/workflows/platform-repositories-terraform-apply.yml@master
+    uses: whitesoft-aus/gh_actions/.github/workflows/platform-repositories-terraform-apply.yml@master
     with:
       bucket: terraform-state-whitesoft
       dynamodb_table: terraform-state-whitesoft
